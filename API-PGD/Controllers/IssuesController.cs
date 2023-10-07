@@ -9,11 +9,11 @@ namespace API_PGD.Controllers
     [ApiController]
     public class IssuesController : ControllerBase
     {
-        private readonly IssueRepositorie _taskRepositorie;
+        private readonly IssueRepositorie _issueRepositorie;
 
         public IssuesController(IssueRepositorie taskRepositorie)
         {
-            _taskRepositorie = taskRepositorie;
+            _issueRepositorie = taskRepositorie;
         }
 
         [HttpGet("{id}")]
@@ -21,7 +21,7 @@ namespace API_PGD.Controllers
         {
             try
             {
-                List<Issue> lstTasks = _taskRepositorie.GetIssueId(id);
+                List<Issue> lstTasks = _issueRepositorie.GetIssueId(id);
                 return Ok(lstTasks);
             }
             catch (Exception exception)
@@ -36,7 +36,7 @@ namespace API_PGD.Controllers
             
             try
             {
-                List<Issue> lstTasks = _taskRepositorie.GetAllIssues(stageId);
+                List<Issue> lstTasks = _issueRepositorie.GetAllIssues(stageId);
                 return Ok(lstTasks);
             }
             catch (Exception exception)
@@ -50,7 +50,7 @@ namespace API_PGD.Controllers
         {
             try
             {
-                object result = _taskRepositorie.InsertIssue(task);
+                object result = _issueRepositorie.InsertIssue(task);
                 return Ok(result);
             }
             catch (Exception exception)
@@ -64,7 +64,7 @@ namespace API_PGD.Controllers
         {
             try
             {
-                string result = _taskRepositorie.UpdateIssue(task);
+                string result = _issueRepositorie.UpdateIssue(task);
                 return Ok(result);
             }
             catch (Exception exception)
@@ -78,7 +78,7 @@ namespace API_PGD.Controllers
         {
             try
             {
-                _taskRepositorie.DeleteIssue(id);
+                _issueRepositorie.DeleteIssue(id);
                 return Ok();
             }
             catch (Exception exception)

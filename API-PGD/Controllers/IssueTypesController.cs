@@ -9,11 +9,11 @@ namespace API_PGD.Controllers
     [ApiController]
     public class IssueTypesController : ControllerBase
     {
-        private readonly IssueTypeRepositorie _taskTypeRepositorie;
+        private readonly IssueTypeRepositorie _issueTypeRepositorie;
 
         public IssueTypesController(IssueTypeRepositorie taskTypeRepositorie)
         {
-            _taskTypeRepositorie = taskTypeRepositorie;
+            _issueTypeRepositorie = taskTypeRepositorie;
         }
 
         [HttpGet("{id}")]
@@ -21,7 +21,7 @@ namespace API_PGD.Controllers
         {
             try
             {
-                List<IssueType> lstTaskTypes = _taskTypeRepositorie.GetIssueTypeId(id);
+                List<IssueType> lstTaskTypes = _issueTypeRepositorie.GetIssueTypeId(id);
                 return Ok(lstTaskTypes);
             }
             catch (Exception exception)
@@ -35,7 +35,7 @@ namespace API_PGD.Controllers
         {
             try
             {
-                List<IssueType> lstTaskTypes = _taskTypeRepositorie.GetAllIssuesTypes();
+                List<IssueType> lstTaskTypes = _issueTypeRepositorie.GetAllIssuesTypes();
                 return Ok(lstTaskTypes);
             }
             catch (Exception exception)
@@ -49,7 +49,7 @@ namespace API_PGD.Controllers
         {
             try
             {
-                var result = _taskTypeRepositorie.InsertIssueType(taskType);
+                var result = _issueTypeRepositorie.InsertIssueType(taskType);
                 return Ok(result);
             }
             catch (Exception exception)
@@ -63,7 +63,7 @@ namespace API_PGD.Controllers
         {
             try
             {
-                string result = _taskTypeRepositorie.UpdateIssueType(taskType);
+                string result = _issueTypeRepositorie.UpdateIssueType(taskType);
                 return Ok(result);
             }
             catch (Exception exception)
@@ -77,7 +77,7 @@ namespace API_PGD.Controllers
         {
             try
             {
-                _taskTypeRepositorie.DeleteIssueType(id);
+                _issueTypeRepositorie.DeleteIssueType(id);
                 return Ok();
             }
             catch (Exception exception)
