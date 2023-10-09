@@ -151,7 +151,7 @@ namespace API_PGD.Repositories
 
                 sqlCommand.Parameters.Add("@Name", SqlDbType.NVarChar).Value = project.Name;
                 sqlCommand.Parameters.Add("@Description", SqlDbType.NVarChar).Value = project.Description;
-                sqlCommand.Parameters.Add("@MainUserID", SqlDbType.NVarChar).Value = project.MainUserID;
+                sqlCommand.Parameters.Add("@MainUserID", SqlDbType.UniqueIdentifier).Value = project.MainUserID;
 
                 result = sqlCommand.ExecuteScalar();
             }

@@ -48,8 +48,8 @@ namespace API_PGD.Repositories
             SqlConnection sqlConnection = null;
             SqlCommand sqlCommand = null;
             SqlDataReader sqlDataReader = null;
-            List<Models.Issue> tasks = null;
-            Models.Issue task = null;
+            List<Models.Issue> issues = null;
+            Issue issue = null;
 
             string queryCommand = string.Empty;
 
@@ -67,22 +67,22 @@ namespace API_PGD.Repositories
                 }
                 sqlDataReader = sqlCommand.ExecuteReader();
 
-                tasks = new List<Models.Issue>();
+                issues = new List<Models.Issue>();
 
                 while (sqlDataReader.Read())
                 {
-                    task = new Models.Issue();
-                    task.Id = new Guid(Convert.ToString(sqlDataReader["ID"]));
-                    task.Title = Convert.ToString(sqlDataReader["Title"]);
-                    task.Description = Convert.ToString(sqlDataReader["Description"]);
-                    task.AssignedToUserId = new Guid(Convert.ToString(sqlDataReader["AssignedToUserID"]));
-                    task.CurrentStageId = new Guid(Convert.ToString(sqlDataReader["CurrentStageID"]));
-                    task.TaskTypeId = new Guid(Convert.ToString(sqlDataReader["TaskTypeID"]));
-                    task.ProjectId = new Guid(Convert.ToString(sqlDataReader["ProjectID"]));
-                    task.CreationDate = Convert.ToDateTime(sqlDataReader["CreationDate"]);
-                    task.FinishDate = Convert.ToDateTime(sqlDataReader["FinishDate"]);
+                    issue = new Models.Issue();
+                    issue.Id = new Guid(Convert.ToString(sqlDataReader["ID"]));
+                    issue.Title = Convert.ToString(sqlDataReader["Title"]);
+                    issue.Description = Convert.ToString(sqlDataReader["Description"]);
+                    issue.AssignedToUserId = new Guid(Convert.ToString(sqlDataReader["AssignedToUserID"]));
+                    issue.CurrentStageId = new Guid(Convert.ToString(sqlDataReader["CurrentStageID"]));
+                    issue.IssueTypeId = new Guid(Convert.ToString(sqlDataReader["IssueTypeID"]));
+                    issue.ProjectId = new Guid(Convert.ToString(sqlDataReader["ProjectID"]));
+                    issue.CreationDate = Convert.ToDateTime(sqlDataReader["CreationDate"]);
+                    issue.FinishDate = Convert.ToDateTime(sqlDataReader["FinishDate"]);
 
-                    tasks.Add(task);
+                    issues.Add(issue);
                 }
             }
             catch (Exception exception)
@@ -95,7 +95,7 @@ namespace API_PGD.Repositories
                 sqlConnection.Dispose();
             }
 
-            return tasks;
+            return issues;
         }
 
         public List<Issue> GetIssueId(Guid id)
@@ -103,8 +103,8 @@ namespace API_PGD.Repositories
             SqlConnection sqlConnection = null;
             SqlCommand sqlCommand = null;
             SqlDataReader sqlDataReader = null;
-            List<Models.Issue> tasks = null;
-            Models.Issue task = null;
+            List<Issue> issues = null;
+            Issue issue = null;
 
             string queryCommand = string.Empty;
 
@@ -118,22 +118,22 @@ namespace API_PGD.Repositories
 
                 sqlDataReader = sqlCommand.ExecuteReader();
 
-                tasks = new List<Models.Issue>();
+                issues = new List<Issue>();
 
                 while (sqlDataReader.Read())
                 {
-                    task = new Models.Issue();
-                    task.Id = new Guid(Convert.ToString(sqlDataReader["ID"]));
-                    task.Title = Convert.ToString(sqlDataReader["Title"]);
-                    task.Description = Convert.ToString(sqlDataReader["Description"]);
-                    task.AssignedToUserId = new Guid(Convert.ToString(sqlDataReader["AssignedToUserID"]));
-                    task.CurrentStageId = new Guid(Convert.ToString(sqlDataReader["CurrentStageID"]));
-                    task.TaskTypeId = new Guid(Convert.ToString(sqlDataReader["TaskTypeID"]));
-                    task.ProjectId = new Guid(Convert.ToString(sqlDataReader["ProjectID"]));
-                    task.CreationDate = Convert.ToDateTime(sqlDataReader["CreationDate"]);
-                    task.FinishDate = Convert.ToDateTime(sqlDataReader["FinishDate"]);
+                    issue = new Models.Issue();
+                    issue.Id = new Guid(Convert.ToString(sqlDataReader["ID"]));
+                    issue.Title = Convert.ToString(sqlDataReader["Title"]);
+                    issue.Description = Convert.ToString(sqlDataReader["Description"]);
+                    issue.AssignedToUserId = new Guid(Convert.ToString(sqlDataReader["AssignedToUserID"]));
+                    issue.CurrentStageId = new Guid(Convert.ToString(sqlDataReader["CurrentStageID"]));
+                    issue.IssueTypeId = new Guid(Convert.ToString(sqlDataReader["IssueTypeID"]));
+                    issue.ProjectId = new Guid(Convert.ToString(sqlDataReader["ProjectID"]));
+                    issue.CreationDate = Convert.ToDateTime(sqlDataReader["CreationDate"]);
+                    issue.FinishDate = Convert.ToDateTime(sqlDataReader["FinishDate"]);
 
-                    tasks.Add(task);
+                    issues.Add(issue);
                 }
             }
             catch (Exception exception)
@@ -146,10 +146,10 @@ namespace API_PGD.Repositories
                 sqlConnection.Dispose();
             }
 
-            return tasks;
+            return issues;
         }
 
-        public object InsertIssue(Issue task)
+        public object InsertIssue(Issue issue)
         {
             SqlConnection sqlConnection = null;
             SqlCommand sqlCommand = null;
@@ -159,20 +159,20 @@ namespace API_PGD.Repositories
 
             try
             {
-                queryCommand = "INSERT INTO [Issue] (Title, Description, AssignedToUserID, CurrentStageID, TaskTypeID, ProjectID, CreationDate, FinishDate) OUTPUT INSERTED.ID " +
-                    "VALUES (@Title,@Description,@AssignedToUserID,@CurrentStageID,@TaskTypeID,@ProjectID,@CreationDate,@FinishDate);";
+                queryCommand = "INSERT INTO [Issue] (Title, Description, AssignedToUserID, CurrentStageID, IssueTypeID, ProjectID, CreationDate, FinishDate) OUTPUT INSERTED.ID " +
+                    "VALUES (@Title,@Description,@AssignedToUserID,@CurrentStageID,@IssueTypeID,@ProjectID,@CreationDate,@FinishDate);";
 
                 sqlConnection = new DB_SGD_SqlServer(_configuration).OpenConnection();
                 sqlCommand = new SqlCommand(queryCommand, sqlConnection);
 
-                sqlCommand.Parameters.Add("@Title", SqlDbType.NVarChar).Value = task.Title;
-                sqlCommand.Parameters.Add("@Description", SqlDbType.NVarChar).Value = task.Description;
-                sqlCommand.Parameters.Add("@AssignedToUserID", SqlDbType.UniqueIdentifier).Value = task.AssignedToUserId;
-                sqlCommand.Parameters.Add("@CurrentStageID", SqlDbType.UniqueIdentifier).Value = task.CurrentStageId;
-                sqlCommand.Parameters.Add("@TaskTypeID", SqlDbType.UniqueIdentifier).Value = task.TaskTypeId;
-                sqlCommand.Parameters.Add("@ProjectID", SqlDbType.UniqueIdentifier).Value = task.ProjectId;
-                sqlCommand.Parameters.Add("@CreationDate", SqlDbType.DateTime).Value = task.CreationDate;
-                sqlCommand.Parameters.Add("@FinishDate", SqlDbType.DateTime).Value = task.FinishDate;
+                sqlCommand.Parameters.Add("@Title", SqlDbType.NVarChar).Value = issue.Title;
+                sqlCommand.Parameters.Add("@Description", SqlDbType.NVarChar).Value = issue.Description;
+                sqlCommand.Parameters.Add("@AssignedToUserID", SqlDbType.UniqueIdentifier).Value = issue.AssignedToUserId;
+                sqlCommand.Parameters.Add("@CurrentStageID", SqlDbType.UniqueIdentifier).Value = issue.CurrentStageId;
+                sqlCommand.Parameters.Add("@IssueTypeID", SqlDbType.UniqueIdentifier).Value = issue.IssueTypeId;
+                sqlCommand.Parameters.Add("@ProjectID", SqlDbType.UniqueIdentifier).Value = issue.ProjectId;
+                sqlCommand.Parameters.Add("@CreationDate", SqlDbType.DateTime).Value = issue.CreationDate;
+                sqlCommand.Parameters.Add("@FinishDate", SqlDbType.DateTime).Value = issue.FinishDate;
 
                 result = sqlCommand.ExecuteScalar();
 
@@ -190,7 +190,7 @@ namespace API_PGD.Repositories
             return result;
         }
 
-        public string UpdateIssue(Issue task)
+        public string UpdateIssue(Issue issue)
         {
             SqlConnection sqlConnection = null;
             SqlCommand sqlCommand = null;
@@ -199,21 +199,21 @@ namespace API_PGD.Repositories
 
             try
             {
-                queryCommand = "UPDATE [Issue] SET Title=@Title, Description=@Description, AssignedToUserID=@AssignedToUserID, CurrentStageID=@CurrentStageID, TaskTypeID=@TaskTypeID, ProjectID=@ProjectID, CreationDate=@CreationDate, FinishDate=@FinishDate" +
+                queryCommand = "UPDATE [Issue] SET Title=@Title, Description=@Description, AssignedToUserID=@AssignedToUserID, CurrentStageID=@CurrentStageID, IssueTypeID=@TaskTypeID, ProjectID=@ProjectID, CreationDate=@CreationDate, FinishDate=@FinishDate" +
                     " WHERE ID=@ID;";
 
                 sqlConnection = new DB_SGD_SqlServer(_configuration).OpenConnection();
                 sqlCommand = new SqlCommand(queryCommand, sqlConnection);
 
-                sqlCommand.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = task.Id;
-                sqlCommand.Parameters.Add("@Title", SqlDbType.NVarChar).Value = task.Title;
-                sqlCommand.Parameters.Add("@Description", SqlDbType.NVarChar).Value = task.Description;
-                sqlCommand.Parameters.Add("@AssignedToUserID", SqlDbType.UniqueIdentifier).Value = task.AssignedToUserId;
-                sqlCommand.Parameters.Add("@CurrentStageID", SqlDbType.UniqueIdentifier).Value = task.CurrentStageId;
-                sqlCommand.Parameters.Add("@TaskTypeID", SqlDbType.UniqueIdentifier).Value = task.TaskTypeId;
-                sqlCommand.Parameters.Add("@ProjectID", SqlDbType.UniqueIdentifier).Value = task.ProjectId;
-                sqlCommand.Parameters.Add("@CreationDate", SqlDbType.DateTime).Value = task.CreationDate;
-                sqlCommand.Parameters.Add("@FinishDate", SqlDbType.DateTime).Value = task.FinishDate;
+                sqlCommand.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value = issue.Id;
+                sqlCommand.Parameters.Add("@Title", SqlDbType.NVarChar).Value = issue.Title;
+                sqlCommand.Parameters.Add("@Description", SqlDbType.NVarChar).Value = issue.Description;
+                sqlCommand.Parameters.Add("@AssignedToUserID", SqlDbType.UniqueIdentifier).Value = issue.AssignedToUserId;
+                sqlCommand.Parameters.Add("@CurrentStageID", SqlDbType.UniqueIdentifier).Value = issue.CurrentStageId;
+                sqlCommand.Parameters.Add("@IssueTypeID", SqlDbType.UniqueIdentifier).Value = issue.IssueTypeId;
+                sqlCommand.Parameters.Add("@ProjectID", SqlDbType.UniqueIdentifier).Value = issue.ProjectId;
+                sqlCommand.Parameters.Add("@CreationDate", SqlDbType.DateTime).Value = issue.CreationDate;
+                sqlCommand.Parameters.Add("@FinishDate", SqlDbType.DateTime).Value = issue.FinishDate;
 
                 sqlCommand.ExecuteNonQuery();
             }
