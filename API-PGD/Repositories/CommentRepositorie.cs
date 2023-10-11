@@ -68,7 +68,7 @@ namespace API_PGD.Repositories
                 {
                     comment = new Comment();
                     comment.Id = new Guid(Convert.ToString(sqlDataReader["ID"]));
-                    comment.TaskId = new Guid(Convert.ToString(sqlDataReader["TaskID"]));
+                    comment.IssueId = new Guid(Convert.ToString(sqlDataReader["IssueID"]));
                     comment.UserId = new Guid(Convert.ToString(sqlDataReader["UserID"]));
                     comment.Content = Convert.ToString(sqlDataReader["Content"]);
 
@@ -112,7 +112,7 @@ namespace API_PGD.Repositories
                 {
                     comment = new Comment();
                     comment.Id = new Guid(Convert.ToString(sqlDataReader["ID"]));
-                    comment.TaskId = new Guid(Convert.ToString(sqlDataReader["TaskID"]));
+                    comment.IssueId = new Guid(Convert.ToString(sqlDataReader["IssueID"]));
                     comment.UserId = new Guid(Convert.ToString(sqlDataReader["UserID"]));
                     comment.Content = Convert.ToString(sqlDataReader["Content"]);
 
@@ -142,12 +142,12 @@ namespace API_PGD.Repositories
 
             try
             {
-                queryCommand = "INSERT INTO [Comment] (TaskID, UserID, Content) OUTPUT INSERTED.ID VALUES (@TaskID,@UserID,@Content);";
+                queryCommand = "INSERT INTO [Comment] (IssueID, UserID, Content) OUTPUT INSERTED.ID VALUES (@IssueID,@UserID,@Content);";
 
                 sqlConnection = new DB_SGD_SqlServer(_configuration).OpenConnection();
                 sqlCommand = new SqlCommand(queryCommand, sqlConnection);
 
-                sqlCommand.Parameters.Add("@TaskID", SqlDbType.UniqueIdentifier).Value = comment.TaskId;
+                sqlCommand.Parameters.Add("@IssueID", SqlDbType.UniqueIdentifier).Value = comment.IssueId;
                 sqlCommand.Parameters.Add("@UserID", SqlDbType.UniqueIdentifier).Value = comment.UserId;
                 sqlCommand.Parameters.Add("@Content", SqlDbType.NVarChar).Value = comment.Content;
 
@@ -176,13 +176,13 @@ namespace API_PGD.Repositories
 
             try
             {
-                queryCommand = "UPDATE [Comment] SET TaskID=@TaskID, UserID=@UserID, Content=@Content WHERE ID=@ID;";
+                queryCommand = "UPDATE [Comment] SET IssueID=@IssueID, UserID=@UserID, Content=@Content WHERE ID=@ID;";
 
                 sqlConnection = new DB_SGD_SqlServer(_configuration).OpenConnection();
                 sqlCommand = new SqlCommand( queryCommand, sqlConnection);
 
                 sqlCommand.Parameters.Add("@ID", SqlDbType.UniqueIdentifier).Value= comment.Id;
-                sqlCommand.Parameters.Add("@TaskID", SqlDbType.UniqueIdentifier).Value = comment.TaskId;
+                sqlCommand.Parameters.Add("@IssueID", SqlDbType.UniqueIdentifier).Value = comment.IssueId;
                 sqlCommand.Parameters.Add("@UserID", SqlDbType.UniqueIdentifier).Value = comment.UserId;
                 sqlCommand.Parameters.Add("@Content", SqlDbType.NVarChar).Value = comment.Content;
 

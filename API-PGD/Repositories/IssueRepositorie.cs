@@ -199,7 +199,7 @@ namespace API_PGD.Repositories
 
             try
             {
-                queryCommand = "UPDATE [Issue] SET Title=@Title, Description=@Description, AssignedToUserID=@AssignedToUserID, CurrentStageID=@CurrentStageID, IssueTypeID=@TaskTypeID, ProjectID=@ProjectID, CreationDate=@CreationDate, FinishDate=@FinishDate" +
+                queryCommand = "UPDATE [Issue] SET Title=@Title, Description=@Description, AssignedToUserID=@AssignedToUserID, CurrentStageID=@CurrentStageID, IssueTypeID=@IssueTypeID, ProjectID=@ProjectID, CreationDate=@CreationDate, FinishDate=@FinishDate" +
                     " WHERE ID=@ID;";
 
                 sqlConnection = new DB_SGD_SqlServer(_configuration).OpenConnection();

@@ -26,15 +26,15 @@ namespace API_PGD
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            //if (app.Environment.IsDevelopment())
+            //{
+            //}
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseCors(options =>
             {
-                options.WithOrigins("http://localhost:5173");
+                options.AllowAnyOrigin();
                 options.AllowAnyMethod();
                 options.AllowAnyHeader();
             });
@@ -42,6 +42,7 @@ namespace API_PGD
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+
 
 
             app.MapControllers();
